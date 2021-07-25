@@ -246,7 +246,7 @@ public class QueryType : ObjectType
 }
 ```
 
-> Note: We still need to specify a type for the argument, in order for non-null or lists of Ids to correctly be inferred.
+> Note: `ID()` can only be used on fields and arguments with a concrete type. Otherwise type modifiers like non-null or list can not be correctly rewritten.
 
 If no arguments are passed to `ID()`, it will use the schema name of the type to produce the Id.
 

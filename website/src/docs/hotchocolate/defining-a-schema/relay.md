@@ -10,17 +10,40 @@ TODO
 
 # Global Object Identification
 
-TODO
+Global Object Identification, as the name suggests, is about being able to uniquely identify an object within our schema. Moreover, it is supposed to allow consumers of our schema to refetch an object in a standardized way, by providing a unique identifier. This capability allows client applications, such as [Relay](https://relay.dev), to automatically refetch types
+
+To identify types that can be refetched, it introduces a new `Node` interface type.
+
+```sdl
+interface Node {
+  id: ID!
+}
+```
+
+Implementing this type signals to client applications, that the implementing type can be refetched. Implementing it also enforces the existance of an `id` field, containing a unique identifier, needed for the refetch operation.
+
+<!-- todo: code to automatically open all external links in a new tab: <a target="_blank" rel="noopener noreferrer" href="link">...</a> -->
 
 [Learn more about Global Object Identification](https://graphql.org/learn/global-object-identification)
 
-<!-- todo: better name -->
+In Hot Chocolate we can enable Global Object Identification, by calling `EnableRelaySupport()` on the `IRequestExecutorBuilder`.
 
-## Nodes
+```csharp
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services
+            .AddGraphQLServer()
+            .EnableRelaySupport()
+            .AddQueryType<Query>();
+    }
+}
+```
 
-TODO
+This registers the `Node` interface type and adds the `node(id: ID!): Node` field to our query type, as explained above.
 
-> ⚠️ Note: Using `EnableRelaySupport` in two stitched services does currently not work.
+> ⚠️ Note: Using `EnableRelaySupport()` in two stitched services does currently not work.
 
 <ExampleTabs>
 <ExampleTabs.Annotation>
